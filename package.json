@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "pdf-parse": "^2.4.5"
+  },
+  "name": "cfp-77th-intake-cycle-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "extract_pdf.js",
+  "devDependencies": {
+    "vite": "^8.0.3"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

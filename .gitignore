@@ -1,0 +1,6 @@
+node_modules/
+dist/
+cfp_landing_page.zip
+*.log
+.env
+.DS_Store
