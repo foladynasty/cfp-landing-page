@@ -64,20 +64,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // Collect form data
             const formData = new FormData(leadForm);
             
-            // Note for actual mailchimp integration:
-            // Since we intercepted it, you would use a fetch request here to send data to Mailchimp 
-            // example:
-            /*
+            // Send data silently to Mailchimp
             fetch(leadForm.action, {
                 method: 'POST',
                 body: formData,
-                mode: 'no-cors' // Mailchimp often requires no-cors for direct frontend submissions
-            }).then(() => {
-                // Show thank you
+                mode: 'no-cors' // Mailchimp requires no-cors for direct frontend submissions
+            }).catch(err => {
+                console.error("Mailchimp submission error (can often be ignored due to no-cors):", err);
             });
-            */
             
-            // For now, immediately hide form and show thank you message seamlessly
+            // Immediately hide form and show our custom thank you message seamlessly
             leadForm.style.display = 'none';
             thankYouMessage.classList.remove('hidden');
             
