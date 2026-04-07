@@ -49,11 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (leadForm) {
         leadForm.addEventListener('submit', (e) => {
-            // Note: If you leave the standard action="YOUR_MAILCHIMP_URL", 
-            // the browser will physically redirect to Mailchimp on submit. 
-            // To prevent this and show our local Thank You message instead, 
-            // we use e.preventDefault() and submit it in the background via fetch() invisible to the user.
-            e.preventDefault();
+            // Note: We DO NOT use e.preventDefault() here.
+            // We want the browser to naturally POST the form securely, 
+            // but we use target="hidden_iframe" in the HTML so it happens invisibly!
             
             // Fire Facebook Pixel Event to track conversions perfectly
             if (typeof fbq !== 'undefined') {
@@ -61,24 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("Facebook Pixel 'Lead' event fired.");
             }
             
-            // Collect form data
-            const formData = new FormData(leadForm);
-            
-            // Send data silently to Mailchimp
-            fetch(leadForm.action, {
-                method: 'POST',
-                body: formData,
-                mode: 'no-cors' // Mailchimp requires no-cors for direct frontend submissions
-            }).catch(err => {
-                console.error("Mailchimp submission error (can often be ignored due to no-cors):", err);
-            });
-            
-            // Immediately hide form and show our custom thank you message seamlessly
-            leadForm.style.display = 'none';
-            thankYouMessage.classList.remove('hidden');
-            
-            // Scroll to thank you message
-            thankYouMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Give the browser a half-second to seamlessly fire the POST to the iframe, then hide form
+            setTimeout(() => {
+                leadForm.style.display = 'none';
+                thankYouMessage.classList.remove('hidden');
+                thankYouMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 500);
         });
     }
 
